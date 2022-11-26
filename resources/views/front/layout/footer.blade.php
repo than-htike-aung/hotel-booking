@@ -17,9 +17,11 @@
                             <h2 class="heading">Useful Links</h2>
                             <ul class="useful-links">
                                 <li><a href="index.html">Home</a></li>
-                                <li><a href="terms.html">Terms and Conditions</a></li>
+                                @if ($global_page_data->terms_status == 1)
+                                    <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
+                                @endif
                                 <li><a href="privacy.html">Privacy Policy</a></li>
-                                <li><a href="disclaimer.html">Disclaimer</a></li>
+                                <li><a href="{{ route('faq') }}">FAQ</a></li>
                             </ul>
                         </div>
                     </div>
