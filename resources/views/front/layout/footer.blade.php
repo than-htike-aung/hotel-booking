@@ -5,10 +5,22 @@
                         <div class="item">
                             <h2 class="heading">Site Links</h2>
                             <ul class="useful-links">
-                                <li><a href="rooms.html">Rooms & Suites</a></li>
-                                <li><a href="photo-gallery.html">Photo Gallery</a></li>
+                                @if ($global_page_data->photo_gallery_status == 1)
+
+                                <li><a href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
+                                
+                                @endif
+                                @if ($global_page_data->video_gallery_status == 1)
+                                <li><a href="{{ route('video.gallery') }}">Video Gallery</a></li>
+                                @endif
+                                @if ($global_page_data->blog_status == 1)
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                @endif
+                                @if ($global_page_data->contact_status == 1)                       
+                        
+                                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                                @endif
+                                
                             </ul>
                         </div>
                     </div>
@@ -20,8 +32,12 @@
                                 @if ($global_page_data->terms_status == 1)
                                     <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
                                 @endif
-                                <li><a href="privacy.html">Privacy Policy</a></li>
+                                @if ($global_page_data->privacy_status == 1)
+                                    <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                                @endif
+                                @if ($global_page_data->faq_status == 1)
                                 <li><a href="{{ route('faq') }}">FAQ</a></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -29,7 +45,11 @@
                     
                     <div class="col-md-3">
                         <div class="item">
-                            <h2 class="heading">Contact</h2>
+                            @if ($global_page_data->contact_status == 1)
+                            
+                                <h2 class="heading">Contact</h2>
+                            
+                            @endif
                             <div class="list-item">
                                 <div class="left">
                                     <i class="fa fa-map-marker"></i>
@@ -71,9 +91,12 @@
                             <p>
                                 In order to get the latest news and other great items, please subscribe us here: 
                             </p>
-                            <form action="" method="post">
+                            <form action="{{ route('contact_subscriber.email') }}" method="post" class="form_subscribe_ajax">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" name="" class="form-control">
+                                    <input type="text" name="email" class="form-control">
+                                 
+                                    <span class="text-danger error-text email_error"></span>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-primary" value="Subscribe Now">
@@ -93,3 +116,46 @@
         <div class="scroll-top">
             <i class="fa fa-angle-up"></i>
         </div>
+
+        
+<script>
+    (function($){
+        $(".form_subscribe_ajax").on('submit', function(e){
+            e.preventDefault();
+             $('#loader').show();
+            var form = this;
+            $.ajax({
+                url:$(form).attr('action'),
+                method:$(form).attr('method'),
+                data:new FormData(form),
+                processData:false,
+                dataType:'json',
+                contentType:false,
+                beforeSend:function(){
+                    $(form).find('span.error-text').text('');
+                },
+                success:function(data)
+                {
+                    $('#loader').hide();
+                    if(data.code == 0)
+                    {
+                        $.each(data.error_message, function(prefix, val) {
+                            $(form).find('span.'+prefix+'_error').text(val[0]);
+                        });
+                    }
+                    else if(data.code == 1)
+                    {
+                        $(form)[0].reset();
+                            iziToast.success({
+                                title: '',
+                                position: 'topRight',
+                                message: data.success_message,
+                            });
+                    }
+                    
+                }
+            });
+        });
+    })(jQuery);
+</script>
+<div id="loader"></div>

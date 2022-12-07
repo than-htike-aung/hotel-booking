@@ -16,8 +16,12 @@ use App\Http\Controllers\Admin\AdminSliderController;
 use App\Http\Controllers\Admin\AdminFeatureController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Front\PrivacyController;
+use App\Http\Controllers\Front\SubscriberController;
 use App\Http\Controllers\Front\TermsController;
 use App\Http\Controllers\Front\VideoController;
 
@@ -123,6 +127,45 @@ Route::middleware(['admin:admin'])->group(function () {
    
      Route::get('/admin/page/terms', [AdminPageController::class, 'terms'])->name('admin_page.terms');
      Route::post('/admin/page/terms/update', [AdminPageController::class, 'terms_update'])->name('admin_page.terms.update');
+
+     Route::get('/admin/page/privacy', [AdminPageController::class, 'privacy'])->name('admin_page.privacy');
+     Route::post('/admin/page/privacy/update', [AdminPageController::class, 'privacy_update'])->name('admin_page.privacy.update');
+
+     Route::get('/admin/page/contact', [AdminPageController::class, 'contact'])->name('admin_page.contact');
+     Route::post('/admin/page/contact/update', [AdminPageController::class, 'contact_update'])->name('admin_page.contact.update');
+     
+     Route::get('/admin/page/photo-gallery', [AdminPageController::class, 'photo_gallery'])->name('admin_page.photo_gallery');
+     Route::post('/admin/page/photo-gallery/update', [AdminPageController::class, 'photo_gallery_update'])->name('admin_page.photo_gallery.update');
+    
+     Route::get('/admin/page/video-gallery', [AdminPageController::class, 'video_gallery'])->name('admin_page.video_gallery');
+     Route::post('/admin/page/video-gallery/update', [AdminPageController::class, 'video_gallery_update'])->name('admin_page.video_gallery.update');
+    
+     Route::get('/admin/page/faq', [AdminPageController::class, 'faq'])->name('admin_page.faq');
+     Route::post('/admin/page/faq/update', [AdminPageController::class, 'faq_update'])->name('admin_page.faq.update');
+    
+     Route::get('/admin/page/blog', [AdminPageController::class, 'blog'])->name('admin_page.blog');
+     Route::post('/admin/page/blog/update', [AdminPageController::class, 'blog_update'])->name('admin_page.blog.update');
+
+     Route::get('/admin/page/cart', [AdminPageController::class, 'cart'])->name('admin_page.cart');
+     Route::post('/admin/page/cart/update', [AdminPageController::class, 'cart_update'])->name('admin_page.cart.update');
+
+     Route::get('/admin/page/checkout', [AdminPageController::class, 'checkout'])->name('admin_page.checkout');
+     Route::post('/admin/page/checkout/update', [AdminPageController::class, 'checkout_update'])->name('admin_page.checkout.update');
+
+     Route::get('/admin/page/payment', [AdminPageController::class, 'payment'])->name('admin_page.payment');
+     Route::post('/admin/page/payment/update', [AdminPageController::class, 'payment_update'])->name('admin_page.payment.update');
+
+     
+     Route::get('/admin/page/signup', [AdminPageController::class, 'signup'])->name('admin_page.signup');
+     Route::post('/admin/page/signup/update', [AdminPageController::class, 'signup_update'])->name('admin_page.signup.update');
+
+     
+     Route::get('/admin/page/signin', [AdminPageController::class, 'signin'])->name('admin_page.signin');
+     Route::post('/admin/page/signin/update', [AdminPageController::class, 'signin_update'])->name('admin_page.signin.update');
+
+    Route::get('/admin/subscriber/show', [AdminSubscriberController::class, 'show'])->name('admin.subscriber.show');
+     Route::get('/admin/subscriber/send-email', [AdminSubscriberController::class, 'send_email'])->name('admin.subscriber.send_email');
+     Route::post('/admin/subscriber/send-email-submit', [AdminSubscriberController::class, 'send_email_submit'])->name('admin.subscriber.send_email_submit');
     });
 
 //Frontend Route
@@ -134,3 +177,8 @@ Route::get('/photo/gallery', [PhotoController::class, 'index'])->name('photo.gal
 Route::get('/video/gallery', [VideoController::class, 'index'])->name('video.gallery');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/terms-and-conditions', [TermsController::class, 'index'])->name('terms');
+Route::get('/privacy', [PrivacyController::class, 'index'])->name('privacy');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact/send-email', [ContactController::class, 'send_email'])->name('contact_send.email');
+Route::post('/subscriber/send-email', [SubscriberController::class, 'send_email'])->name('contact_subscriber.email');
+Route::get('/subscriber/verify/{email}/{token}', [SubscriberController::class, 'verify'])->name('subscriber_verify');

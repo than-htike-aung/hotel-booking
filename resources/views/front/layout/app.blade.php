@@ -33,6 +33,14 @@
        @include('front.layout.footer')
 		
        @include('front.layout.scripts_footer')      
-		
+        @if(session()->get('success'))
+                <script>
+                    iziToast.success({
+                        title: '',
+                        position: 'topRight',
+                        message: '{{ session()->get('success') }}',
+                    });
+                </script>
+        @endif
    </body>
 </html>
